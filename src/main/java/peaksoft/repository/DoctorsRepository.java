@@ -1,18 +1,20 @@
 package peaksoft.repository;
 
 import peaksoft.entities.Doctor;
-import peaksoft.entities.Hospital;
 
 import java.util.List;
 
 public interface DoctorsRepository {
-    void saveDoctor(Doctor doctor);
-    List<Doctor> getAllDoctor();
 
-    Doctor getDoctorById(Long id);
+    String saveDoctor(Long hospitalId,Doctor doctor);
+
+    List<Doctor>getAllDoctor(Long id);
+    Doctor getByDoctorId(Long id);
+    void  updateDoctor(Long id,Doctor newDoctor);
     void deleteDoctorById(Long id);
 
-    void updateDoctor(Long id,Doctor updateDoctor);
+    void assignDoctor(Doctor doctor);
+
 
 
 }

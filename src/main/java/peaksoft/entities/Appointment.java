@@ -30,5 +30,12 @@ public class Appointment {
     @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private Department department;
 
+    @Transient
+    private Long doctorId;
+    @Transient
+    private Long departmentId;
+    @Transient
+    private Long patientId;
+
 
 }

@@ -1,118 +1,140 @@
 package peaksoft.api;
-
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import peaksoft.entities.Department;
+import peaksoft.entities.Doctor;
 import peaksoft.entities.Hospital;
 import peaksoft.service.DepartmentService;
+import peaksoft.service.DoctorsService;
 import peaksoft.service.HospitalService;
-//
+
 import java.util.List;
 
 @Controller
-@RequestMapping("/{id}/departments")
+@RequestMapping("/departments")
 @RequiredArgsConstructor
 public class DepartmentController {
-
     private final DepartmentService departmentService;
     private final HospitalService hospitalService;
-
-//    @GetMapping
-//    String getAllDepartment(Model model) {
-//        List<Department> departments = departmentService.getAllDepartment();
-//        model.addAttribute("department", departments);
-//        return "department/departments";
-//    }
-//
-//    @PostMapping("/save")
-//    String save(@ModelAttribute("newDepartment") Department department, @RequestParam("hospitalId") Long id) {
-//        departmentService.saveDepartment(id, department);
-//        return "department/departments";
-//    }
-//
-//    @GetMapping("/new/{hospitalId}")
-//    String newAdd(@PathVariable("hospitalId") Long hospitalId, Model model) {
-//        model.addAttribute("newDepartment", new Department());
-//        model.addAttribute("hospitalsId", hospitalId);
-//        return "re";
+    private final DoctorsService doctorsService;
 
 
-//    @DeleteMapping("{departmentId}/delete")
-//    String deleteById(@PathVariable("departmentId") Long id) {
-//        departmentService.deleteDepartmentById(id);
-//        return "redirect:/departments";
-//    }
-
-
-//public class DepartmentController {
-//    private  final DepartmentService departmentService;
-//    private  final HospitalService hospitalService;
-//    private Long hospitalId;
-//
-//
-//    @Autowired
-//    public DepartmentController(DepartmentService departmentService, HospitalService hospitalService) {
-//        this.departmentService = departmentService;
-//        this.hospitalService = hospitalService;
-//    }
-
-
-    @GetMapping
-    String getAllDepartment(Model model, @PathVariable("id") Long id) {
+    @GetMapping("/{id}")
+    public String getAllDepartments(Model model,
+                                    @PathVariable("id") Long id ,
+                                    @ModelAttribute("doctor") Doctor doctor ){
         model.addAttribute("departments", departmentService.getAllDepartment(id));
-
+        model.addAttribute("doctors", doctorsService.getAllDoctor(id));
+        model.addAttribute("hospitalId",id);
         return "department/departments";
     }
-    @GetMapping("/newDepartment")
-    String  newDepartment(Model model,@PathVariable("id")Long id ){
-        model.addAttribute("newDepartment", new Department());
-        return "department/newDepartment";
+
+    @PostMapping("/save/{hospitalId}")
+    public String save(@ModelAttribute("newDepartment") Department department,
+                       @PathVariable Long hospitalId) {
+        departmentService.saveDepartment(hospitalId, department);
+        return "redirect:/departments/"+hospitalId;
     }
-    @PostMapping("/saveDepartment")
-    String saveDepartment(@PathVariable("id") Long id,
-                          @ModelAttribute("department") Department department){
-        departmentService.saveDepartment(id, department);
-        return "redirect:/{id}/departments";
+
+    @GetMapping("/new/{id}")
+    public String create(Model model,
+                         @PathVariable("id")Long id) {
+        model.addAttribute("newDepartment", new Department());
+        model.addAttribute("hospitalId", id);
+        return "/department/newDepartment";
+    }
+
+
+
+
+
+
+
+
+
+
+
+    @GetMapping("/edit/{departmentId}")
+    public String edit(@PathVariable("departmentId")Long departmentId,
+                       Model model){
+        Department department = departmentService.getDepartmentById(departmentId);
+        model.addAttribute("department", department);
+        model.addAttribute("hospitalId",department.getHospital().getId());
+        return "/department/update";
+    }
+
+    @PostMapping("/{hospitalId}/{departmentId}/update")
+    public String update(@ModelAttribute("department") Department department,
+                         @PathVariable("departmentId") Long departmentId,
+                         @PathVariable("hospitalId") Long hospitalId){
+        departmentService.updateDepartment(departmentId,department);
+        return "redirect:/departments/" + hospitalId;
+    }
+
+
+
+
+    @DeleteMapping("/{hospitalId}/{departmentId}/delete")
+    public String deletePatient(@PathVariable("departmentId")Long id,
+                                @PathVariable("hospitalId")Long hospitalId){
+        departmentService.deleteDepartmentById(id);
+        return"redirect:/departments/" + hospitalId;
     }
 
 }
 
 
-//
-//
-//    @GetMapping("/{hospitalId}")
-//    String  getAll(Model model,@PathVariable("hospitalId")Long id ){
-//        model.addAttribute("id",id);
-//        model.addAttribute("departments", departmentService.getAll(id));
-//        model.addAttribute("hospital",hospitalService.getById(id));
-//        hospitalId=id;
-//
-//
+
+
+
+
+
+
+
+
+
+//    @GetMapping("/{id}")
+//    String getAllDepartment(Model model, @PathVariable("id") Long id) {
+//        model.addAttribute("departments", departmentService.getAllDepartment(id));
 //        return "department/departments";
 //    }
-//    @GetMapping("/addDepartment/{hospitalId}")
-//    String addDepartment(@PathVariable("hospitalId") Long id ,Model model){
-//        System.out.println("hello");
-//        model.addAttribute("newDepartment",new Department());
+//    @PostMapping("/saveDepartment")
+//    String save(@PathVariable("id") Long id,
+//                          @ModelAttribute("department") Department department){
+//        departmentService.saveDepartment(id, department);
+//        return "department/departments";
+//    }
+//    @GetMapping("/saveDepartment/departmentId")
+//    String save(Model model,@PathVariable("departmentId")Long id){
+//        model.addAttribute("department",new Department());
 //        model.addAttribute("hospitalId",id);
-//        model.addAttribute("hospital",hospitalService.getById(id));
-//        return "department/save";
+//        return "/department/newDepartment";
+
+
+//    @PostMapping("/new")
+//    String create(@ModelAttribute("department")Department department, @PathVariable("id") Long id) {
+//        departmentService.saveDepartment(id,department);
+//        return "redirect:/{id}/departments";
 //    }
-//    @PostMapping("/saveDepartment/{hospitalId}")
-//    String saveDepartment( @PathVariable("hospitalId")Long id,@ModelAttribute("department")Department department){
-//        departmentService.save(id,department);
-//        return "redirect:/departments/"+id;
+
+
+
+
+
+
+
+//    @GetMapping ("{departmentId}/edit")
+//    String edit(@PathVariable("departmentId") Long departmentId,Model model) {
+//        model.addAttribute("department", departmentService.getDepartmentById(departmentId));
+//        return "department/update";
 //    }
-//    @DeleteMapping("/deleteDepartment/{departmentId}")
-//    String deleteHospital(@PathVariable("departmentId") Long id) {
-//        departmentService.deleteById(id);
-////        return "redirect:/departments/"+hospitalId;
-//    }
-//
-//}
+//        @PostMapping("{id}/update")
+//                String update(@PathVariable("id") Long id,@ModelAttribute("department")Department department){
+//            departmentService.updateDepartment(id,department);
+//            return "redirect:/departments";
+//        }
+
+
+

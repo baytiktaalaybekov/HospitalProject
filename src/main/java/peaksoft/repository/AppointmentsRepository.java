@@ -5,9 +5,8 @@ import peaksoft.entities.Appointment;
 import java.util.List;
 
 public interface AppointmentsRepository {
-    void saveAppointment(Appointment appointment);
-    List<Appointment> getAllAppointment();
-
+    Appointment saveAppointment(Appointment appointment);
+    List<Appointment> getAllAppointment(Long id);
     Appointment getAppointmentById(Long id);
     void deleteAppointmentById(Long id);
 

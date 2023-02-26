@@ -16,19 +16,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DepartmentServiceImpl implements DepartmentService {
     private final DepartmentRepository departmentRepository;
-    private final HospitalRepository hospitalRepository;
-
-
     @Override
     public void saveDepartment(Long id,Department department) {
-//        Hospital hospital= hospitalRepository.getHospitalById(id);
-//        for (Department department1 : departmentRepository.getAllDepartment()) {
-//            if (!department.getName().equals(department1.getName())){
-//                hospital.addDepartment(department);
-//                department.setHospital(hospital);
-//                departmentRepository.saveDepartment(department);
-//            }
-//        }
         departmentRepository.saveDepartment(id, department);
     }
 

@@ -7,7 +7,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import peaksoft.entities.Hospital;
 import peaksoft.service.HospitalService;
-
 import java.util.List;
 
 @Controller
@@ -26,8 +25,6 @@ public class HospitalController {
         model.addAttribute("newHospital", new Hospital());
         return "hospital/newHospital";
     }
-
-
     @PostMapping("/save")
     public String save(@ModelAttribute("newHospital") Hospital hospital){
         hospitalService.save(hospital);
@@ -51,4 +48,5 @@ public class HospitalController {
         hospitalService.updateHospital(id, hospital);
         return "redirect:/hospitals";
     }
+
 }

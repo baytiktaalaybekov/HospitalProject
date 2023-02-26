@@ -6,12 +6,15 @@ import peaksoft.entities.Doctor;
 import java.util.List;
 
 public interface DoctorsService {
-    void saveDoctor(Doctor doctor);
-    List<Doctor> getAllDoctor();
 
-    Doctor getDoctorById(Long id);
+    String saveDoctor(Long hospitalId,Doctor doctor);
+
+    List<Doctor>getAllDoctor(Long id);
+    Doctor getByDoctorId(Long id);
+
     void deleteDoctorById(Long id);
 
-    void updateDoctor(Long id,Doctor updateDoctor);
+    void assignDoctor(Long doctorId, Doctor doctor);
 
+    void update(Long doctorId, Doctor doctor);
 }

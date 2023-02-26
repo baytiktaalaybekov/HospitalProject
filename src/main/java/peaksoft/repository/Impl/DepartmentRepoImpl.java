@@ -16,10 +16,8 @@ public class DepartmentRepoImpl implements DepartmentRepository {
     private EntityManager entityManager;
     @Override
     public void saveDepartment(Long id, Department department) {
-        Hospital hospital = entityManager.createQuery("from Hospital where id = :id", Hospital.class)
-                .setParameter("id", id)
-                .getSingleResult();
-        hospital.getDepartments().add(department);
+        Hospital hospital = entityManager.find(Hospital.class,id);
+        hospital.addDepartment(department);
         department.setHospital(hospital);
         entityManager.persist(department);
 
@@ -48,5 +46,7 @@ public class DepartmentRepoImpl implements DepartmentRepository {
     public void updateDepartment(Long id, Department updateDepartment) {
         Department department = entityManager.find(Department.class, id);
         department.setName(updateDepartment.getName());
+        entityManager.merge(department);
     }
+
 }
