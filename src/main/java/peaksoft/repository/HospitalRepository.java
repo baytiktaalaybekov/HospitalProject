@@ -1,6 +1,7 @@
 package peaksoft.repository;
 
 import org.springframework.stereotype.Repository;
+import peaksoft.entities.Appointment;
 import peaksoft.entities.Hospital;
 
 import java.util.List;
@@ -14,4 +15,7 @@ public interface HospitalRepository {
     void deleteHospitalById(Long id);
 
     void updateHospital(Long id,Hospital updateHospital);
+
+    void merge(Hospital hospital, Appointment appointment1);
+
 }

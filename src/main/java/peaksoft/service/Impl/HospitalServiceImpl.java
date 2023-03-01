@@ -40,4 +40,5 @@ public class HospitalServiceImpl implements HospitalService {
     public void updateHospital(Long id, Hospital updateHospital) {
         hospitalRepository.updateHospital(id,updateHospital);
     }
+
 }

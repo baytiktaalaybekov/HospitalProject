@@ -27,18 +27,18 @@ public class AppointmentsController {
         return "appointment/appointments";
     }
     @GetMapping("/new/{hospitalId}")
-    String addAppointment(@PathVariable("hospitalId")Long hospitalId,Model model) {
+    String create(@PathVariable("hospitalId")Long hospitalId,Model model) {
         model.addAttribute("newAppointments", new Appointment());
         model.addAttribute("patients", patientsService.getAllPatient(hospitalId));
         model.addAttribute("departments", departmentService.getAllDepartment(hospitalId));
-        model.addAttribute("doctors", doctorsService.getByDoctorId(hospitalId));
-        model.addAttribute(hospitalId);
+        model.addAttribute("doctors", doctorsService.getAllDoctor(hospitalId));
+        model.addAttribute("hospitalId",hospitalId);
         return "appointment/newAppointment";
 
 
     }
         @PostMapping("/save/{hospitalId}")
-        String save(@PathVariable("hospitalId")Long hospitalId,@ModelAttribute("newAppointment") Appointment appointment){
+        String save(@PathVariable("hospitalId")Long hospitalId,@ModelAttribute("newAppointments") Appointment appointment){
         appointmentsService.saveAppointment(hospitalId,appointment);
         return "redirect:/appointments/"+hospitalId;
         }
@@ -61,7 +61,7 @@ public class AppointmentsController {
     @DeleteMapping("/{hospitalId}/{appointmentId}/delete")
     public String deleteDoctor(@PathVariable("appointmentId")Long appointmentId,
                                @PathVariable("hospitalId")Long hospitalId){
-        appointmentsService.deleteAppointmentById(appointmentId);
+        appointmentsService.deleteAppointmentById(appointmentId,hospitalId);
         return"redirect:/appointments/" + hospitalId;
     }
 
@@ -69,27 +69,13 @@ public class AppointmentsController {
 
 
 //
-//    @GetMapping
-//    String getAllAppointment(Model model,@PathVariable("id")Long id) {
-//        List<Appointment> appointments = appointmentsService.getAllAppointment();
-//        model.addAttribute("appointments");
-//        return "appointment/appointments";
+//    @DeleteMapping("/{hospitalId}/{appointmentId}/delete")
+//    public String deleteDoctor(@PathVariable("appointmentId")Long appointmentId,
+//                               @PathVariable("hospitalId")Long hospitalId){
+//        appointmentsService.deleteAppointmentById(appointmentId);
+//        return"redirect:/appointments/" + hospitalId;
 //    }
-//        @PostMapping("/new")
-//                String create (@ModelAttribute("newAppointment")Appointment appointment){
-//            appointmentsService.saveAppointment();
-//        return "redirect:/appointments";
-//
-//    }
-//    @GetMapping("/saveAppointment")
-//    String save(Model model) {
-//        model.addAttribute("appointment", new Appointment());
-//        return "appointments";
-//    }
-//        @DeleteMapping("{appointmentId}/delete")
-//                String delete(@PathVariable("appointmentId")Long id){
-//            return "redirect:/appointments";
-//        }
+
 
 
     }

@@ -31,16 +31,16 @@ public class Hospital {
     @Column(length = 10000)
     private String image;
 
-    @OneToMany(mappedBy = "hospital", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "hospital", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
 
     private List<Doctor> doctors = new ArrayList<>();
 
-    @OneToMany(mappedBy = "hospital", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "hospital", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     private List<Patient> patients = new ArrayList<>();
-    @OneToMany(mappedBy = "hospital", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "hospital", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     private List<Department> departments;
-    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
-    private List<Appointment> appointments = new ArrayList<>();
+    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    private List<Appointment> appointments;
 
     public void setPatients(Patient patient) {
         if (patients == null) {
@@ -58,6 +58,9 @@ public class Hospital {
     }
 
     public void addAppointment(Appointment appointment1) {
+        if (appointments == null){
+            appointments=new ArrayList<>();
+        }
         appointments.add(appointment1);
     }
 }

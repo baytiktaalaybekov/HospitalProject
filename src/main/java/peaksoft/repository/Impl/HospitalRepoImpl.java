@@ -4,6 +4,8 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
+import peaksoft.entities.Appointment;
+import peaksoft.entities.Department;
 import peaksoft.entities.Hospital;
 import peaksoft.repository.HospitalRepository;
 
@@ -22,12 +24,12 @@ public class HospitalRepoImpl implements HospitalRepository {
 
     @Override
     public List<Hospital> getAllHospital() {
-        return entityManager.createQuery("select h from Hospital h",Hospital.class).getResultList();
+        return entityManager.createQuery("select h from Hospital h", Hospital.class).getResultList();
     }
 
     @Override
     public Hospital getHospitalById(Long id) {
-        return entityManager.find(Hospital.class,id);
+        return entityManager.find(Hospital.class, id);
     }
 
     @Override
@@ -42,5 +44,10 @@ public class HospitalRepoImpl implements HospitalRepository {
         hospital.setName(updateHospital.getName());
         hospital.setAddress(updateHospital.getAddress());
         hospital.setImage(updateHospital.getImage());
+    }
+
+    @Override
+    public void merge(Hospital hospital, Appointment appointment1) {
+        entityManager.merge(hospital);
     }
 }

@@ -19,7 +19,7 @@ public class DepartmentRepoImpl implements DepartmentRepository {
         Hospital hospital = entityManager.find(Hospital.class,id);
         hospital.addDepartment(department);
         department.setHospital(hospital);
-        entityManager.persist(department);
+        entityManager.merge(department);
 
     }
 

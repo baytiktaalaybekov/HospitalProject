@@ -44,14 +44,14 @@ public class Doctor {
 
 
 
-    @OneToMany(mappedBy = "doctor",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "doctor",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private List<Appointment> appointments=new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.EAGER,cascade = {DETACH,REFRESH,PERSIST,MERGE})
     private Hospital hospital;
 
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {DETACH,REFRESH,PERSIST,MERGE})
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {DETACH,REFRESH,PERSIST,MERGE})
     private List<Department> departments;
 
     public void addDepartment(Department department) {

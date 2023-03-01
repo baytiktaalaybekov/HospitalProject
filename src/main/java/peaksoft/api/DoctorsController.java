@@ -2,18 +2,15 @@ package peaksoft.api;
 
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import peaksoft.entities.Department;
 import peaksoft.entities.Doctor;
-import peaksoft.entities.Hospital;
 
 import peaksoft.repository.DepartmentRepository;
 import peaksoft.service.DoctorsService;
 
-import javax.print.Doc;
-import java.util.List;
 //
 @Controller
 @RequestMapping("/doctors")
@@ -21,6 +18,8 @@ import java.util.List;
 public class DoctorsController {
     private final DoctorsService doctorsService;
     private final DepartmentRepository departmentRepository;
+
+
 
     @GetMapping("/{Id}")
     public String getAllDoctor(Model model, @PathVariable("Id") Long id){
@@ -70,14 +69,14 @@ public class DoctorsController {
         return "redirect: /doctors/"+hospitalId;
     }
 
-    @GetMapping("/{hospitalId}/{doctorId}/departments")
-    String assignDoctor(@PathVariable("hospitalId") Long id,
-                        @PathVariable("doctorId") Long doctorId,
-                        Model model) {
-        model.addAttribute("doctor", doctorsService.getByDoctorId(doctorId));
-        model.addAttribute("departments", departmentRepository.getAllDepartment(id));
-        return "doctor/departments";
-    }
+//    @GetMapping("/{hospitalId}/{doctorId}/departments")
+//    String assignDoctor(@PathVariable("hospitalId") Long id,
+//                        @PathVariable("doctorId") Long doctorId,
+//                        Model model) {
+//        model.addAttribute("doctor", doctorsService.getByDoctorId(doctorId));
+//        model.addAttribute("departments", departmentRepository.getAllDepartment(id));
+//        return "doctor/departments";
+//    }
     @GetMapping("/{hospitalId}/{doctorId}/assignDepartment")
     String saveAssignDoctor(@PathVariable("hospitalId") Long id,
                             @PathVariable("doctorId") Long doctorId,

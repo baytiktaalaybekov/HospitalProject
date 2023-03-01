@@ -22,10 +22,10 @@ public class Department {
     private Long id;
     @Size(min=2,max = 50,message = "Name should be between 2 and 50 characters!")
     private String name;
-    @ManyToMany(mappedBy = "departments",fetch = FetchType.LAZY,cascade = {REFRESH,PERSIST,MERGE,DETACH})
+    @ManyToMany(mappedBy = "departments",fetch = FetchType.EAGER,cascade = {REFRESH,PERSIST,MERGE,DETACH})
      List<Doctor> doctors=new ArrayList<>();
 
-    @ManyToOne(cascade ={REFRESH,CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST} )
+    @ManyToOne(cascade ={REFRESH,DETACH,MERGE,PERSIST}, fetch = FetchType.EAGER)
     private Hospital hospital;
 
 

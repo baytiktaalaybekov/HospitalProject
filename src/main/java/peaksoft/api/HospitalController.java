@@ -2,6 +2,7 @@ package peaksoft.api;
 
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -11,10 +12,15 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/hospitals")
-@RequiredArgsConstructor
 public class HospitalController {
     private final HospitalService hospitalService;
-    @GetMapping
+
+    @Autowired
+    public HospitalController(HospitalService hospitalService) {
+        this.hospitalService = hospitalService;
+    }
+
+    @GetMapping()
     String getAllHospital(Model model) {
         List<Hospital> hospitals = hospitalService.getAllHospital();
         model.addAttribute("hospitals", hospitals);
@@ -32,8 +38,8 @@ public class HospitalController {
     }
 
     @DeleteMapping("{hospitalId}/delete")
-    public String deleteHospital(@PathVariable("hospitalId") Long hospitalId){
-        hospitalService.deleteHospitalById(hospitalId);
+    public String deleteHospital(@PathVariable("hospitalId") Long id){
+        hospitalService.deleteHospitalById(id);
         return "redirect:/hospitals";
     }
 
@@ -48,5 +54,7 @@ public class HospitalController {
         hospitalService.updateHospital(id, hospital);
         return "redirect:/hospitals";
     }
+
+
 
 }

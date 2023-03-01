@@ -20,17 +20,16 @@ public class AppointmentServiceImpl implements AppointmentsService {
 
 
     @Override
-    public Appointment saveAppointment( Long id,Appointment appointment) {
-        Hospital hospital = hospitalRepository.getHospitalById(id);
-        Appointment appointment1 = new Appointment();
-        appointment1.setDate(appointment.getDate());
-        appointment1.setId(appointment.getId());
+    public void saveAppointment( Long hospitalId,Appointment appointment) {
+        Hospital hospital = hospitalRepository.getHospitalById(hospitalId);
+        Appointment newAppointment=new Appointment();
+        newAppointment.setDate(appointment.getDate());
+        newAppointment.setPatient(patientsRepository.getPatientById(appointment.getPatientId()));
+        appointment.setDepartment(departmentRepository.getDepartmentById(appointment.getDepartmentId()));
+        appointment.setDoctor(doctorsRepository.getByDoctorId(appointment.getDepartmentId()));
+        hospital.addAppointment(newAppointment);
+        appointmentsRepository.saveAppointment(newAppointment);
 
-        appointment1.setDoctor(doctorsRepository.getByDoctorId(appointment.getDoctorId()));
-        appointment1.setDepartment(departmentRepository.getDepartmentById(appointment.getDepartmentId()));
-        appointment1.setPatient(patientsRepository.getPatientById(appointment.getPatientId()));
-        hospital.addAppointment(appointment1);
-        return appointmentsRepository.saveAppointment(appointment1);
     }
 
     @Override
@@ -45,7 +44,11 @@ public class AppointmentServiceImpl implements AppointmentsService {
     }
 
     @Override
-    public void deleteAppointmentById(Long id) {
+    public void deleteAppointmentById(Long id,Long hospitalId) {
+        Appointment appointment= appointmentsRepository.getAppointmentById(id);
+        hospitalRepository.getHospitalById(hospitalId).getAppointments().remove(appointment);
+        appointment.getDoctor().getAppointments().remove(appointment);
+        appointment.getPatient().getAppointments().remove(appointment);
         appointmentsRepository.deleteAppointmentById(id);
     }
 

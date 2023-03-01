@@ -1,5 +1,6 @@
 package peaksoft.service;
 
+import org.springframework.stereotype.Service;
 import peaksoft.entities.Hospital;
 
 import java.util.List;

@@ -6,10 +6,10 @@ import peaksoft.entities.Department;
 import java.util.List;
 
 public interface AppointmentsService {
-    Appointment saveAppointment( Long id,Appointment appointment);
+    void saveAppointment( Long hospitalId,Appointment appointment);
     List<Appointment> getAllAppointment(Long id);
     Appointment getAppointmentById(Long id);
-    void deleteAppointmentById(Long id);
+    void deleteAppointmentById(Long id,Long hospitalId);
     void updateAppointment(Long id,Appointment updateAppointment);
 
 

@@ -9,7 +9,6 @@ public interface AppointmentsRepository {
     List<Appointment> getAllAppointment(Long id);
     Appointment getAppointmentById(Long id);
     void deleteAppointmentById(Long id);
-
     void updateAppointment(Long id,Appointment updateAppointment);
 
 }

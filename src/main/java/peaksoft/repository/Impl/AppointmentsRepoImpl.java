@@ -6,7 +6,6 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 import peaksoft.entities.*;
 import peaksoft.repository.AppointmentsRepository;
-import peaksoft.service.AppointmentsService;
 
 import java.util.List;
 
@@ -18,7 +17,7 @@ public class AppointmentsRepoImpl implements AppointmentsRepository {
 
 
     @Override
-    public Appointment saveAppointment( Appointment appointment) {
+    public Appointment saveAppointment(Appointment appointment) {
         entityManager.persist(appointment);
         return appointment;
     }
@@ -36,7 +35,7 @@ public class AppointmentsRepoImpl implements AppointmentsRepository {
 
     @Override
     public void deleteAppointmentById(Long id) {
-  entityManager.createQuery("delete  from Appointment  where id= :id", Department.class).setParameter("id",id).executeUpdate();
+  entityManager.createQuery("delete  from Appointment a where a.id= :id", Department.class).setParameter("id",id).executeUpdate();
     }
 
     @Override

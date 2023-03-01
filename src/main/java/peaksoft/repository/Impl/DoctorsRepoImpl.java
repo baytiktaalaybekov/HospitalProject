@@ -55,12 +55,7 @@ public class DoctorsRepoImpl implements DoctorsRepository {
 
     @Override
     public void assignDoctor(Doctor doctor) {
-//        Department department = entityManager.find(Department.class,departmentId);
-//        Doctor doctor = entityManager.find(Doctor.class, doctorId);
-//        doctor.addDepartment(department);
-//        department.addDoctor(doctor);
-//        entityManager.merge(department);
-//        entityManager.merge(doctor);
+
         entityManager.merge(doctor);
     }
 
